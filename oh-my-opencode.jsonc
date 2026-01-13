@@ -1,0 +1,41 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "google_auth": false, // 如果用反重力插件的话，这个得设为 false
+  "claude_code": { // 我不希望 OpenCode 自动读取 Claude 的配置
+    "mcp": false,
+    "commands": false,
+    "skills": false,
+    "agents": false,
+    "hooks": false
+  },
+  "agents": {
+    // 西西弗斯，负责协调和直接执行简单的任务
+    "Sisyphus": {
+      "model": "openai/gpt-5.2-codex"
+    },
+    // 先知，执行困难的任务和debug
+    "oracle": {
+      "model": "openai/gpt-5.2-codex"
+    },
+    // 帮助你查找库相关的信息
+    "librarian": {
+      "model": "openai/gpt-5.2-codex"
+    },
+    // 探索现有代码仓库
+    "explore": {
+      "model": "openai/gpt-5.2-codex"
+    },
+    // 前端设计是，必然得是哈基米
+    "frontend-ui-ux-engineer": {
+      "model": "google/gemini-3-pro-preview"
+    },
+    // 写文档的模型，看你的喜好选就好！
+    "document-writer": {
+      "model": "google/gemini-3-flash-preview"
+    },
+    // 多模态识别，当然还是哈基米
+    "multimodal-looker": {
+      "model": "google/gemini-3-flash-preview"
+    }
+  }
+}
