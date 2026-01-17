@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
-  "google_auth": false, // 如果用反重力插件的话，这个得设为 false
+  "google_auth": true, // 如果用反重力插件的话，这个得设为 false
   "claude_code": { // 我不希望 OpenCode 自动读取 Claude 的配置
     "mcp": false,
     "commands": false,
