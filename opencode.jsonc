@@ -3,24 +3,23 @@
     "oh-my-opencode",
     "opencode-gemini-auth",
     "opencode-openai-codex-auth",
-    // "~/.config/opencode/plugin/morph-fast-apply",
     "@franlol/opencode-md-table-formatter@0.0.3",
     "@mohak34/opencode-notifier@latest",
     "opencode-websearch-cited",
     "@zenobius/opencode-skillful",
-    "opencode-wakatime"
-
+    "opencode-wakatime",
+    "opencode-antigravity-auth@1.2.8",
+    "micode",
+    //"@tarquinen/opencode-dcp@latest",
+    "/home/xsiry/tools/morph-fast-apply"
   ],
   "instructions": [
-    // "~/.config/opencode/plugin/morph-fast-apply/MORPH_INSTRUCTIONS.md"
+    "/home/xsiry/tools/morph-fast-apply/MORPH_INSTRUCTIONS.md"
   ],
   "$schema": "https://opencode.ai/config.json",
   "provider": {
     "anthropic": {
-      "options": {
-//        "baseURL": "https://jp.duckcoding.com",
-//	"model": "claude-opus-4-5-20251101"
-      }
+      "options": {}
     },
     "openai": {
       "name": "OpenAI",
@@ -31,9 +30,6 @@
         "include": [
           "reasoning.encrypted_content"
         ],
-        "websearch_cited": {
-          "model": "gpt-5.2"
-        },
         "store": false
       },
       "models": {
@@ -161,8 +157,8 @@
     "google": {
       "name": "Google",
       "models": {
-        "gemini-3-pro-preview": {
-          "name": "Gemini 3 Pro",
+        "antigravity-gemini-3-pro-high": {
+          "name": "Gemini 3 Pro High (Antigravity)",
           "thinking": true,
           "attachment": true,
           "limit": {
@@ -180,8 +176,27 @@
             ]
           }
         },
-        "gemini-3-flash-preview": {
-          "name": "Gemini 3 Flash",
+        "antigravity-gemini-3-pro-low": {
+          "name": "Gemini 3 Pro Low (Antigravity)",
+          "thinking": true,
+          "attachment": true,
+          "limit": {
+            "context": 1048576,
+            "output": 65535
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "antigravity-gemini-3-flash": {
+          "name": "Gemini 3 Flash (Antigravity)",
           "attachment": true,
           "limit": {
             "context": 1048576,
@@ -202,15 +217,10 @@
     }
   },
   "mcp": {
-    // "chrome-devtools": {
-    //   "type": "local",
-    //   "command": [
-    //     "npx",
-    //     "-y",
-    //     "chrome-devtools-mcp@latest"
-    //   ],
-    //   "enabled": true
-    // },
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
+    },  
     "sequential-thinking": {
       "type": "local",
       "command": [
@@ -220,16 +230,6 @@
       ],
       "enabled": true
     },
-    //"context7-mcp": {
-    //  "type": "local",
-    //  "command": [
-    //    "npx",
-    //    "-y",
-    //    "@upstash/context7-mcp"
-    //  ],
-    //  "enabled": true,
-    //  "environment": {}
-    //},
     "serena": {
       "type": "local",
       "command": [
@@ -256,24 +256,6 @@
         "duckduckgo-mcp-server"
       ],
       "enabled": true
-    },
-    // "spec-workflow": {
-    //   "type": "local",
-    //   "command": [
-    //     "npx",
-    //     "-y",
-    //     "@pimzino/spec-workflow-mcp@latest"
-    //   ],
-    //   "enabled": true
-    // },
-    // "mcp-deepwiki": {
-    //   "type": "local",
-    //   "command": [
-    //     "npx",
-    //     "-y",
-    //     "mcp-deepwiki@latest"
-    //   ],
-    //   "enabled": true
-    // }
+    }
   }
 }
