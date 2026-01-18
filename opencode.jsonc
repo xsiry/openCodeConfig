@@ -8,7 +8,6 @@
     "opencode-websearch-cited",
     "@zenobius/opencode-skillful",
     "opencode-wakatime",
-    "opencode-antigravity-auth@1.2.8",
     "micode",
     //"@tarquinen/opencode-dcp@latest",
     "/home/xsiry/tools/morph-fast-apply"
@@ -34,7 +33,7 @@
       },
       "models": {
         "gpt-5.2": {
-          "name": "GPT 5.2 (OAuth)",
+          "name": "GPT 5.2",
           "limit": {
             "context": 272000,
             "output": 128000
@@ -77,7 +76,7 @@
           }
         },
         "gpt-5.2-codex": {
-          "name": "GPT 5.2 Codex (OAuth)",
+          "name": "GPT 5.2 Codex",
           "limit": {
             "context": 272000,
             "output": 128000
@@ -115,7 +114,7 @@
           }
         },
         "gpt-5.1-codex-max": {
-          "name": "GPT 5.1 Codex Max (OAuth)",
+          "name": "GPT 5.1 Codex Max",
           "limit": {
             "context": 272000,
             "output": 128000
@@ -157,8 +156,8 @@
     "google": {
       "name": "Google",
       "models": {
-        "antigravity-gemini-3-pro-high": {
-          "name": "Gemini 3 Pro High (Antigravity)",
+        "gemini-3-pro-preview": {
+          "name": "Gemini 3 Pro",
           "thinking": true,
           "attachment": true,
           "limit": {
@@ -176,27 +175,8 @@
             ]
           }
         },
-        "antigravity-gemini-3-pro-low": {
-          "name": "Gemini 3 Pro Low (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": {
-            "context": 1048576,
-            "output": 65535
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "antigravity-gemini-3-flash": {
-          "name": "Gemini 3 Flash (Antigravity)",
+        "gemini-3-flash-preview": {
+          "name": "Gemini 3 Flash",
           "attachment": true,
           "limit": {
             "context": 1048576,
