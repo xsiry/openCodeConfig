@@ -6,10 +6,10 @@
     "@franlol/opencode-md-table-formatter@0.0.3",
     "@mohak34/opencode-notifier@latest",
     "opencode-websearch-cited",
-    "@zenobius/opencode-skillful",
+    //"@zenobius/opencode-skillful",
     "opencode-wakatime",
     "micode",
-    //"@tarquinen/opencode-dcp@latest",
+    "@tarquinen/opencode-dcp@latest",
     "/home/xsiry/tools/morph-fast-apply"
   ],
   "instructions": [
@@ -199,7 +199,11 @@
   "mcp": {
     "chrome-devtools": {
       "type": "local",
-      "command": ["npx", "-y", "chrome-devtools-mcp@latest"]
+      "command": [
+        "npx", 
+	"-y", 
+	"chrome-devtools-mcp@latest"
+      ]
     },  
     "sequential-thinking": {
       "type": "local",
@@ -216,7 +220,11 @@
         "uvx",
         "--from",
         "git+https://github.com/oraios/serena",
-        "serena-mcp-server"
+        "serena-mcp-server",
+	"--context",
+        "codex",
+        "--enable-web-dashboard",
+        "False"
       ],
       "enabled": true
     },
@@ -235,6 +243,11 @@
         "uvx",
         "duckduckgo-mcp-server"
       ],
+      "enabled": true
+    },
+    "deepwiki": {
+      "type": "remote",
+      "url": "https://mcp.deepwiki.com/mcp",
       "enabled": true
     }
   }
