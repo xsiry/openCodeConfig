@@ -6,9 +6,8 @@
     "@franlol/opencode-md-table-formatter@0.0.3",
     "@mohak34/opencode-notifier@latest",
     "opencode-websearch-cited",
-    //"@zenobius/opencode-skillful",
+    "@zenobius/opencode-skillful",
     "opencode-wakatime",
-    "micode",
     "@tarquinen/opencode-dcp@latest",
     "/home/xsiry/tools/morph-fast-apply"
   ],
