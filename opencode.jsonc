@@ -1,12 +1,11 @@
 {
   "plugin": [
-    "oh-my-opencode",
-    "opencode-gemini-auth",
-    "opencode-openai-codex-auth",
-    "@franlol/opencode-md-table-formatter@0.0.3",
-    "@mohak34/opencode-notifier@latest",
-    "opencode-websearch-cited",
-    "@zenobius/opencode-skillful",
+    "oh-my-opencode@latest",
+    "opencode-gemini-auth@latest",
+    "opencode-openai-codex-auth@latest",
+    "@franlol/opencode-md-table-formatter@latest",
+    "opencode-websearch-cited@latest",
+    "@zenobius/opencode-skillful@latest",
     "opencode-wakatime",
     "@tarquinen/opencode-dcp@latest",
     "/home/xsiry/tools/morph-fast-apply"
@@ -15,193 +14,17 @@
     "/home/xsiry/tools/morph-fast-apply/MORPH_INSTRUCTIONS.md"
   ],
   "$schema": "https://opencode.ai/config.json",
-  "provider": {
-    "anthropic": {
-      "options": {}
-    },
-    "openai": {
-      "name": "OpenAI",
-      "options": {
-        "reasoningEffort": "medium",
-        "reasoningSummary": "auto",
-        "textVerbosity": "medium",
-        "include": [
-          "reasoning.encrypted_content"
-        ],
-        "store": false
-      },
-      "models": {
-        "gpt-5.2": {
-          "name": "GPT 5.2",
-          "limit": {
-            "context": 272000,
-            "output": 128000
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            }
-          }
-        },
-        "gpt-5.2-codex": {
-          "name": "GPT 5.2 Codex",
-          "limit": {
-            "context": 272000,
-            "output": 128000
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            }
-          }
-        },
-        "gpt-5.1-codex-max": {
-          "name": "GPT 5.1 Codex Max",
-          "limit": {
-            "context": 272000,
-            "output": 128000
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            }
-          }
-        }
-      }
-    },
-    "google": {
-      "name": "Google",
-      "models": {
-        "gemini-3-pro-preview": {
-          "name": "Gemini 3 Pro",
-          "thinking": true,
-          "attachment": true,
-          "limit": {
-            "context": 1048576,
-            "output": 65535
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "gemini-3-flash-preview": {
-          "name": "Gemini 3 Flash",
-          "attachment": true,
-          "limit": {
-            "context": 1048576,
-            "output": 65536
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        }
-      }
-    }
-  },
   "mcp": {
     "chrome-devtools": {
       "type": "local",
       "command": [
         "npx", 
 	"-y", 
-	"chrome-devtools-mcp@latest"
+	"chrome-devtools-mcp@latest",
+	"--headless",
+	"--isolated",
+	"--executablePath",
+	"/usr/sbin/google-chrome-stable"
       ]
     },  
     "sequential-thinking": {
@@ -249,5 +72,6 @@
       "url": "https://mcp.deepwiki.com/mcp",
       "enabled": true
     }
-  }
+  },
+  "enabled_providers": ["openai", "google"]
 }
