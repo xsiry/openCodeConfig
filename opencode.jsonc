@@ -4,7 +4,6 @@
     "opencode-gemini-auth@latest",
     "opencode-openai-codex-auth@latest",
     "@franlol/opencode-md-table-formatter@latest",
-    "opencode-websearch-cited@latest",
     "@zenobius/opencode-skillful@latest",
     "opencode-wakatime",
     "@tarquinen/opencode-dcp@latest",
@@ -14,44 +13,19 @@
     "/home/xsiry/tools/morph-fast-apply/MORPH_INSTRUCTIONS.md"
   ],
   "$schema": "https://opencode.ai/config.json",
-  "provider": {
-    "myproxy": {  // 这里必须和上一步的提供商 ID 完全一致！
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "我的中转站",  // 在 UI 中显示的名称，可自定义
-      "options": {
-        "baseURL": "https://api.aicodemirror.com/api/codex/backend-api/codex/v1",  // 你的中转站 API 地址（必须以 /v1 结尾或符合 OpenAI 格式）
-        "apiKey": "sk-ant-api03-4-ylAaYUypOlPwxqSulroAgAyEi_Gldi18zvVvFrSfSACMzoY7xw0QPx3n7YW3pzcV4Z3Tvk1VvDdD_BnkUgkw"  // 可选：自动引用上一步存储的密钥（推荐，不用明文写 key）
-        // 如果中转站需要自定义 headers，可添加：
-        // "headers": {
-        //   "X-Custom-Header": "your-value"
-        // }
-      },
-      "models": {
-        "claude-opus-4-5-20251101": {  // 中转站支持的模型 ID，例如 gpt-4o、claude-3-5-sonnet 等
-          "name": "Claude Opus 4.5（中转）"
-        },
-        "claude-sonnet-4-5-20250929": {
-          "name": "Claude Sonnet 4.5 (中转)"
-        },
-        "gpt-5.2-codex": {
-          "name": "GPT 5.2 Codex (中转)"
-	}
-      }
-    }
-  },
   "mcp": {
     "chrome-devtools": {
       "type": "local",
       "command": [
-        "npx", 
-	"-y", 
-	"chrome-devtools-mcp@latest",
-	"--headless",
-	"--isolated",
-	"--executablePath",
-	"/usr/sbin/google-chrome-stable"
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--headless",
+        "--isolated",
+        "--executablePath",
+        "/usr/sbin/google-chrome-stable"
       ]
-    },  
+    },
     "sequential-thinking": {
       "type": "local",
       "command": [
@@ -68,7 +42,7 @@
         "--from",
         "git+https://github.com/oraios/serena",
         "serena-mcp-server",
-	"--context",
+        "--context",
         "codex",
         "--enable-web-dashboard",
         "False"
@@ -98,5 +72,8 @@
       "enabled": true
     }
   },
-  "enabled_providers": ["openai", "google"]
+  "enabled_providers": [
+    "openai",
+    "google"
+  ]
 }
