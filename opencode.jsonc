@@ -7,10 +7,11 @@
     "@zenobius/opencode-skillful@latest",
     "opencode-wakatime",
     "@tarquinen/opencode-dcp@latest",
-    "/home/xsiry/tools/morph-fast-apply"
+    "@zenobius/opencode-skillful",
+   // "github:JRedeker/opencode-morph-fast-apply"
   ],
   "instructions": [
-    "/home/xsiry/tools/morph-fast-apply/MORPH_INSTRUCTIONS.md"
+    //"~/.config/openCode/node_modules/opencode-morph-fast-apply/MORPH_INSTRUCTIONS.md"
   ],
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
