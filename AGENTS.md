@@ -4,17 +4,31 @@
 
 ## 适配版本与来源
 
-- **适配范围**：OpenCode `1.1.x`（当前本地插件处于 `@opencode-ai/plugin` 1.1.x 线，具体 patch 以本机实际版本为准）与 Oh-My-OpenCode `3.x`
+- **适配范围**：OpenCode `1.2.x`（本机 `opencode --version`：`1.2.10`）与 Oh-My-OpenCode `3.x`（本机插件：`3.8.4`）
 - **官方来源优先级**：GitHub 仓库/Release/Docs > 官方站点文档 > 其他检索结果
 - **安全提醒**：`ohmyopencode.com` 非官方来源，禁止作为规范依据
 - **原则**：当工具行为与本文档冲突时，以当前运行时的实际工具定义与返回为准
 
+### 运行时配置提示（OpenCode 1.2.x）
+
+- OpenCode 配置支持 JSON/JSONC，且多来源配置是 **merge**（不是替换）；优先级：Remote `.well-known/opencode` -> Global `~/.config/opencode/opencode.json{,c}` -> `OPENCODE_CONFIG` -> Project `opencode.json` -> `.opencode` dirs -> `OPENCODE_CONFIG_CONTENT`
+- Provider ID 以运行时为准：本机 Gemini provider 为 `google`（不是 `gemini`）；建议通过 `enabled_providers: ["openai", "google"]` allowlist 锁死 provider，并用 `opencode models --refresh` 验证
+- 弃用键：`autoshare` -> `share`，`mode` -> `agent`（配置字段以 `opencode.ai/config.json` 为准）
+- 建议在 `opencode.jsonc` 显式设置 `model`/`small_model` 作为 oh-my-opencode provider fallback 的兜底（仅 Gemini + Codex 场景尤其重要）
+- 插件加载是“叠加 + 覆盖”：除 `opencode.jsonc` 的 `plugin` 列表外，OpenCode 也会自动加载 `~/.config/opencode/plugins/` 与项目 `.opencode/plugins/`；加载顺序会影响覆盖关系
+- `instructions` 支持路径或 glob，把额外指令文件注入到模型（适合工具说明、团队规范等）
+
 ### 运行时配置提示（Oh-My-OpenCode 3.x）
 
-- 推荐配置文件位置：项目级 `.opencode/oh-my-opencode.json`，用户级 `~/.config/opencode/oh-my-opencode.json`
+- 推荐配置文件位置：项目级 `.opencode/oh-my-opencode.jsonc`（或 `.json`），用户级 `~/.config/opencode/oh-my-opencode.jsonc`（或 `.json`；若两者并存，以 `.jsonc` 优先）
 - 配置支持 JSONC（注释、尾逗号）；可按团队习惯启用 `.jsonc`
-- 模型解析遵循优先级：用户覆盖 > category 默认映射 > 系统默认模型
-- 排查配置生效问题时，优先使用 `doctor --verbose` 查看最终解析结果
+- 建议将 `oh-my-opencode.jsonc` 的 `$schema` 固定到已安装版本（例如 `.../v3.8.4/...`），避免 `master` 漂移导致校验与运行时不一致
+- 配置字段以 schema 为准：例如 `oh-my-opencode` `3.8.4` schema 已无 `google_auth`（遗留字段应删除）
+- 模型解析遵循优先级：显式 `model` 覆盖 > provider fallback chain > OpenCode 默认模型（建议在 `opencode.jsonc` 设置 `model`/`small_model` 作为兜底）
+- 排查配置生效问题：优先 `bunx oh-my-opencode doctor --json`（脚本可解析）/ `--verbose`（人读），以及 `opencode models --refresh`
+- `doctor` 常见 warning：`comment-checker`/`gh` 缺失；按需安装或通过 `disabled_hooks` 禁用（`comment-checker` hook id 即 `comment-checker`）
+- `claude_code` 导入默认开启（未配置时视为 true）；若不使用 Claude Code（或本机无该目录/不想被其干扰）建议显式关闭各项开关
+- 注意：截至 `oh-my-opencode` `3.8.4`，文档中的 `sisyphus.tasks.enabled` 示例与 schema/实现不一致（schema 仅有 `storage_path`/`task_list_id`/`claude_code_compat`）；以 schema 与 `doctor` 输出为准
 
 ---
 
@@ -110,6 +124,8 @@
 
 **触发场景**：代码检索、架构分析、跨文件引用、符号重命名、结构化修改
 
+**配置备注**：当前 Serena 运行于 `codex` 上下文模式，具备更强的代码补全与重构建议能力，在涉及大范围重构时请优先参考其 `get_symbols_overview` 建议。
+
 **推荐顺序**：
 
 ```
@@ -122,7 +138,7 @@ get_symbols_overview -> find_symbol -> find_referencing_symbols -> search_for_pa
 - 使用 `paths_include_glob`/`paths_exclude_glob` 限定搜索
 - 先符号后文本，尽量避免全仓盲扫
 
-### 2. 编排工具（OpenCode 1.1.x 重点）
+### 2. 编排工具（OpenCode 1.2.x 重点）
 
 | 目标 | 工具 |
 |------|------|
@@ -137,11 +153,21 @@ get_symbols_overview -> find_symbol -> find_referencing_symbols -> search_for_pa
 | 工具 | 用途 |
 |------|------|
 | `context7` | 官方 API 文档与版本化用法 |
-| `websearch` / `ddg-search` | 外部检索与补充事实 |
-| `deepwiki` | 仓库知识结构与解释 |
+| `ddg-search` / `webfetch` | 外部检索与补充事实（`websearch`/Exa 依赖额外配置时再启用） |
+| `deepwiki` | 仓库全域知识问答（优先用于查询业务逻辑/历史背景） |
 | `grep_app` | GitHub 真实代码示例 |
 
 **查询原则**：优先官方来源；外部信息需标注置信度与来源。
+
+### 3.5 高级推理工具 (MCP)
+
+| 工具 | 用途 | 触发场景 |
+|------|------|----------|
+| `sequential-thinking` | 多步链式推理与自我反思 | 遇到逻辑死循环、复杂算法设计、需要“慢思考”的难题 |
+
+**使用原则**：
+- 仅在 `ultrabrain` 或 `deep` 模式下优先使用
+- 禁止用于简单查询，避免过度消耗 Token
 
 ### 4. 语义与本地编辑工具
 
@@ -172,6 +198,7 @@ get_symbols_overview -> find_symbol -> find_referencing_symbols -> search_for_pa
 
 - 并发启动多个 `explore`（代码结构/模式/AST）
 - 若涉及外部库，同时并发 `librarian`
+- 若涉及复杂业务逻辑/历史背景，并发 `deepwiki` (ask_question)
 - 直连工具并行：`grep`、`ast_grep_search`、`rg`
 - 不以首个结果停止；以“信息增量收敛”作为停止条件
 
@@ -266,7 +293,7 @@ get_symbols_overview -> find_symbol -> find_referencing_symbols -> search_for_pa
 ### 服务降级链路
 
 ```
-context7 不可用 -> websearch/ddg-search（限定官方域名）
+context7 不可用 -> ddg-search/webfetch（限定官方域名；必要时用 `grep_app` 找真实代码样例；`websearch`/Exa 依赖额外配置时再启用）
 外部检索不足 -> 请求用户提供额外线索
 serena 不可用 -> Read/Grep/AST 组合降级，LSP 按语言服务器可用性补充使用
 ```
@@ -291,7 +318,7 @@ serena 不可用 -> Read/Grep/AST 组合降级，LSP 按语言服务器可用性
 ```
 1. context7.resolve-library-id
 2. context7.query-docs
-3. websearch/ddg-search 交叉验证
+3. ddg-search/webfetch 交叉验证（必要时用 `grep_app` 找真实代码样例）
 ```
 
 ### 规划执行模式
