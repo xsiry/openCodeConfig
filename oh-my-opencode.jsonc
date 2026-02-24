@@ -20,9 +20,12 @@
       "model": "openai/gpt-5.3-codex",
       "variant": "xhigh"
     },
-    "oracle": {
+    "hephaestus": {
       "model": "openai/gpt-5.3-codex",
-      "variant": "medium"
+      "variant": "xhigh"
+    },
+    "oracle": {
+      "model": "openai/gpt-5.2"
     },
     "librarian": {
       "model": "openai/gpt-5.2",
@@ -44,8 +47,7 @@
       "variant": "xhigh"
     },
     "momus": {
-      "model": "openai/gpt-5.2",
-      "variant": "medium"
+      "model": "openai/gpt-5.2"
     },
     "atlas": {
       "model": "openai/gpt-5.3-codex",
@@ -54,7 +56,8 @@
   },
   "categories": {
     "visual-engineering": {
-      "model": "google/gemini-3-pro-preview"
+      "model": "google/gemini-3-pro-preview",
+      "variant": "high"
     },
     "ultrabrain": {
       "model": "openai/gpt-5.3-codex",
@@ -66,14 +69,13 @@
     },
     "artistry": {
       "model": "google/gemini-3-pro-preview",
-      "variant": "max"
+      "variant": "high"
     },
     "quick": {
-      "model": "openai/gpt-5.1-codex",
-      "variant": "max"
+      "model": "google/gemini-3-flash-preview"
     },
     "unspecified-low": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.2",
       "variant": "high"
     },
     "unspecified-high": {
