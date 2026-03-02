@@ -4,31 +4,46 @@
 
 ## 适配版本与来源
 
-- **适配范围**：OpenCode `1.2.x`（本机 `opencode --version`：`1.2.10`）与 Oh-My-OpenCode `3.x`（本机插件：`3.8.4`）
+- **适配范围**：OpenCode `1.2.x`（本机 `opencode --version`：`1.2.15`）与 Oh-My-OpenCode `3.x`（本机插件：`3.9.0`）
 - **官方来源优先级**：GitHub 仓库/Release/Docs > 官方站点文档 > 其他检索结果
 - **安全提醒**：`ohmyopencode.com` 非官方来源，禁止作为规范依据
 - **原则**：当工具行为与本文档冲突时，以当前运行时的实际工具定义与返回为准
 
 ### 运行时配置提示（OpenCode 1.2.x）
 
-- OpenCode 配置支持 JSON/JSONC，且多来源配置是 **merge**（不是替换）；优先级：Remote `.well-known/opencode` -> Global `~/.config/opencode/opencode.json{,c}` -> `OPENCODE_CONFIG` -> Project `opencode.json` -> `.opencode` dirs -> `OPENCODE_CONFIG_CONTENT`
+- OpenCode 配置支持 JSON/JSONC，且多来源配置是 **merge**（不是替换）；优先级：Remote `.well-known/opencode` -> Global `~/.config/opencode/opencode.json{,c}` -> `OPENCODE_CONFIG` -> Project `opencode.json` -> `.opencode` dirs -> `OPENCODE_CONFIG_CONTENT` -> Managed settings（macOS `/Library/Application Support/opencode`，Linux `/etc/opencode`，始终覆盖）
 - Provider ID 以运行时为准：本机 Gemini provider 为 `google`（不是 `gemini`）；建议通过 `enabled_providers: ["openai", "google"]` allowlist 锁死 provider，并用 `opencode models --refresh` 验证
-- 弃用键：`autoshare` -> `share`，`mode` -> `agent`（配置字段以 `opencode.ai/config.json` 为准）
+- 弃用键：`autoshare` -> `share`，`mode` -> `agent`，`maxSteps` -> `steps`（配置字段以 `opencode.ai/config.json` 为准）
 - 建议在 `opencode.jsonc` 显式设置 `model`/`small_model` 作为 oh-my-opencode provider fallback 的兜底（仅 Gemini + Codex 场景尤其重要）
 - 插件加载是“叠加 + 覆盖”：除 `opencode.jsonc` 的 `plugin` 列表外，OpenCode 也会自动加载 `~/.config/opencode/plugins/` 与项目 `.opencode/plugins/`；加载顺序会影响覆盖关系
 - `instructions` 支持路径或 glob，把额外指令文件注入到模型（适合工具说明、团队规范等）
+- v1.2.x 新增 `tui.json` 独立文件（TUI 专用配置：scroll_speed/themes/keybinds/diff_style），原 `opencode.json` 中的 TUI 配置已迁移
+- `skills` 字段支持额外 skill 文件夹路径和 URL（如 `"skills": ["./my-skills", "https://example.com/skills"]`）
+- `snapshot` 布尔字段控制是否启用快照；`autoupdate` 支持 `true`/`false`/`"notify"` 三值
+- `watcher` 字段支持 ignore glob 配置，控制文件监视范围
+- MCP 配置支持 OAuth 动态客户端注册（RFC 9728/8414/8707/7591）
+- 新增环境变量 `OPENCODE_DISABLE_LSP_DOWNLOAD` 禁止自动下载 LSP 服务器
+- 仓库已迁移：`sst/opencode` → `anomalyco/opencode`；官方文档：`opencode.ai/docs`
+- Provider 生态：75+ providers，Models.dev catalog 1000+ models，每小时刷新
+- Plugin hooks 新增：`tool.execute.before`、`session.idle`、`shell.env`
 
 ### 运行时配置提示（Oh-My-OpenCode 3.x）
 
 - 推荐配置文件位置：项目级 `.opencode/oh-my-opencode.jsonc`（或 `.json`），用户级 `~/.config/opencode/oh-my-opencode.jsonc`（或 `.json`；若两者并存，以 `.jsonc` 优先）
 - 配置支持 JSONC（注释、尾逗号）；可按团队习惯启用 `.jsonc`
-- 建议将 `oh-my-opencode.jsonc` 的 `$schema` 固定到已安装版本（例如 `.../v3.8.4/...`），避免 `master` 漂移导致校验与运行时不一致
-- 配置字段以 schema 为准：例如 `oh-my-opencode` `3.8.4` schema 已无 `google_auth`（遗留字段应删除）
+- 建议将 `oh-my-opencode.jsonc` 的 `$schema` 固定到已安装版本（例如 `.../v3.9.0/...`），避免 `master` 漂移导致校验与运行时不一致
+- 配置字段以 schema 为准：例如 `oh-my-opencode` `3.9.0` schema 已无 `google_auth`（遗留字段应删除）
 - 模型解析遵循优先级：显式 `model` 覆盖 > provider fallback chain > OpenCode 默认模型（建议在 `opencode.jsonc` 设置 `model`/`small_model` 作为兜底）
 - 排查配置生效问题：优先 `bunx oh-my-opencode doctor --json`（脚本可解析）/ `--verbose`（人读），以及 `opencode models --refresh`
 - `doctor` 常见 warning：`comment-checker`/`gh` 缺失；按需安装或通过 `disabled_hooks` 禁用（`comment-checker` hook id 即 `comment-checker`）
 - `claude_code` 导入默认开启（未配置时视为 true）；若不使用 Claude Code（或本机无该目录/不想被其干扰）建议显式关闭各项开关
-- 注意：截至 `oh-my-opencode` `3.8.4`，文档中的 `sisyphus.tasks.enabled` 示例与 schema/实现不一致（schema 仅有 `storage_path`/`task_list_id`/`claude_code_compat`）；以 schema 与 `doctor` 输出为准
+- 注意：截至 `oh-my-opencode` `3.9.0`，文档中的 `sisyphus.tasks.enabled` 示例与 schema/实现不一致（schema 仅有 `storage_path`/`task_list_id`/`claude_code_compat`）；以 schema 与 `doctor` 输出为准
+- v3.9.0 新增 `agents.hephaestus.allow_non_gpt_model` 字段；`disabled_agents` 从枚举限定改为任意字符串数组
+- v3.9.0 移除了 Hephaestus 自动提交功能；新增 Worktree-aware `/start-work --worktree`
+- Hashline Edit（LINE#ID 锚定编辑）默认启用；如需关闭可设 `hashline_edit: false`
+- Runtime Fallback：支持 `runtime_fallback.enabled`、`retry_on_errors`、`max_fallback_attempts`、`cooldown_seconds`；可按 agent/category 设置 `fallback_models`
+- 实验性功能：`experimental.dynamic_context_pruning`（自动上下文压缩）、`experimental.task_system`（任务管理系统 T-{uuid}）、`experimental.auto_resume`
+- Skill 加载优先级（高→低）：`.opencode/skills/` > `~/.config/opencode/skills/` > `.claude/skills/` > `.agents/skills/` > `~/.agents/skills/`
 
 ---
 
@@ -74,29 +89,64 @@
 
 ---
 
+## Agent 体系（Oh-My-OpenCode 3.x）
+
+### 核心 Agent（11 个）
+
+| Agent | 默认模型 | 角色 | 工具限制 |
+|-------|---------|------|----------|
+| `sisyphus` | claude-opus-4-6 | 主编排器，委派+验证 | 全工具 |
+| `hephaestus` | gpt-5.3-codex | 自主深度工作者，自行规划 | 全工具 |
+| `oracle` | gpt-5.2 | 只读高 IQ 顾问 | 禁 write/edit/task |
+| `librarian` | glm-4.7 | 外部文档/代码检索 | 禁 write/edit/delegate |
+| `explore` | grok-code-fast-1 | 代码结构/模式检索 | 禁 write/edit/delegate |
+| `multimodal-looker` | gemini-3-flash | 图像/视觉内容分析 | 仅 read 允许列表 |
+| `prometheus` | claude-opus-4-6 | 访谈式规划器 | 只读，生成 .sisyphus/plans/ |
+| `metis` | claude-opus-4-6 | 需求缺口分析 | 只读 |
+| `momus` | gpt-5.2 | 计划评审员 | 禁 write/edit/delegate |
+| `atlas` | k2p5 (Kimi) | 计划执行指挥 | 禁 delegate（task/call_omo_agent） |
+| `sisyphus-junior` | 按 category 动态 | 聚焦执行工人 | 不可再委派 |
+
+### Agent Provider Fallback Chain
+
+| Agent | 主模型 → 降级链 |
+|-------|----------------|
+| Sisyphus | claude-opus-4-6 → anthropic → github-copilot → opencode → kimi → zai |
+| Hephaestus | gpt-5.3-codex → openai → github-copilot → opencode |
+| Oracle | gpt-5.2 → openai → google → anthropic |
+| Librarian | glm-4.7 → zai → opencode → anthropic |
+| Explore | grok-code-fast-1 → github-copilot → anthropic/opencode |
+| Multimodal-looker | gemini-3-flash → google → openai → zai → kimi → opencode → anthropic |
+| Prometheus | claude-opus-4-6 → anthropic → kimi → opencode → openai → google |
+| Metis | claude-opus-4-6 → anthropic → kimi → opencode → openai → google |
+| Momus | gpt-5.2 → openai → anthropic → google |
+| Atlas | k2p5 → kimi → opencode → anthropic → openai → google |
+
+---
+
 ## Category 与 Skill 快速参考
 
 ### 内置 Category（Oh-My-OpenCode 3.x）
 
-| Category | 适用场景 |
-|----------|----------|
-| `visual-engineering` | 前端、UI/UX、动画与视觉实现 |
-| `ultrabrain` | 高难逻辑与深度推理 |
-| `deep` | 复杂问题的自主研究与落地 |
-| `artistry` | 非常规方案、创造性解法 |
-| `quick` | 单点小改、低复杂任务 |
-| `unspecified-low` | 低复杂度通用任务 |
-| `unspecified-high` | 高复杂度通用任务 |
-| `writing` | 文档、说明、技术写作 |
+| Category | 默认模型 | Variant | 适用场景 |
+|----------|---------|---------|----------|
+| `visual-engineering` | gemini-3-pro | high | 前端、UI/UX、动画与视觉实现 |
+| `ultrabrain` | gpt-5.3-codex | xhigh | 高难逻辑与深度推理 |
+| `deep` | gpt-5.3-codex | medium | 复杂问题的自主研究与落地 |
+| `artistry` | gemini-3-pro | high | 非常规方案、创造性解法 |
+| `quick` | claude-haiku-4-5 | - | 单点小改、低复杂任务 |
+| `unspecified-low` | claude-sonnet-4-6 | - | 低复杂度通用任务 |
+| `unspecified-high` | claude-opus-4-6 | max | 高复杂度通用任务 |
+| `writing` | k2p5 (Kimi) | - | 文档、说明、技术写作 |
 
 ### 内置 Skill
 
 | Skill | 用途 | 触发信号 |
 |-------|------|----------|
-| `git-master` | Git 操作最佳实践 | commit/rebase/blame/history |
-| `playwright` | 浏览器自动化与 E2E | 页面交互、表单、截图、回归 |
-| `frontend-ui-ux` | 前端视觉与交互实现 | 无设计稿 UI 落地 |
-| `dev-browser` | 浏览器流程自动化 | 导航、抓取、网站测试 |
+| `git-master` | Git 原子提交（自动检测最近 30 次提交风格）、rebase/squash、history 考古（blame/bisect/log -S）。多文件规则：3+ 文件 → 2+ 提交，5+ → 3+，10+ → 5+ | commit/rebase/blame/history |
+| `playwright` | 浏览器自动化 MCP（E2E 测试、页面交互、截图） | 页面交互、表单、截图、回归 |
+| `frontend-ui-ux` | 设计师转开发者视角，无设计稿也能产出大胆美学 UI | 无设计稿 UI 落地 |
+| `dev-browser` | 浏览器流程自动化（Vercel agent-browser CLI） | 导航、抓取、网站测试 |
 
 ### 用户安装 Skill（高优先级）
 
@@ -153,7 +203,8 @@ get_symbols_overview -> find_symbol -> find_referencing_symbols -> search_for_pa
 | 工具 | 用途 |
 |------|------|
 | `context7` | 官方 API 文档与版本化用法 |
-| `ddg-search` / `webfetch` | 外部检索与补充事实（`websearch`/Exa 依赖额外配置时再启用） |
+| `websearch` (Exa) | 内置 MCP，Web 搜索与实时信息（优先于 ddg-search） |
+| `ddg-search` / `webfetch` | 备选外部检索与页面抓取 |
 | `deepwiki` | 仓库全域知识问答（优先用于查询业务逻辑/历史背景） |
 | `grep_app` | GitHub 真实代码示例 |
 
@@ -168,6 +219,32 @@ get_symbols_overview -> find_symbol -> find_referencing_symbols -> search_for_pa
 **使用原则**：
 - 仅在 `ultrabrain` 或 `deep` 模式下优先使用
 - 禁止用于简单查询，避免过度消耗 Token
+
+### 3.6 Hooks 参考
+
+共 44+ hooks，分 5 层：PreToolUse、PostToolUse、Message、Event、Transform/Params。
+
+**关键 hooks**（`disabled_hooks` 可禁用）：
+
+| Hook | 功能 |
+|------|------|
+| `todo-continuation-enforcer` | 推动 Junior 持续完成 todo |
+| `context-window-monitor` | 上下文窗口监控 |
+| `session-recovery` | 会话恢复 |
+| `comment-checker` | 代码注释检查（需 `gh`） |
+| `tool-output-truncator` | 工具输出截断 |
+| `keyword-detector` | 关键词检测（ultrawork/ulw/search/find/analyze） |
+| `think-mode` | 思考模式切换 |
+| `ralph-loop` | Ralph 循环控制 |
+| `start-work` | 计划执行启动 |
+| `runtime-fallback` | 运行时模型降级 |
+| `preemptive-compaction` | 预防性上下文压缩 |
+| `edit-error-recovery` | 编辑错误恢复 |
+| `write-existing-file-guard` | 防止覆写已有文件 |
+| `delegate-task-retry` | 委派任务重试 |
+| `unstable-agent-babysitter` | 不稳定 agent 监控 |
+| `compaction-context-injector` | 压缩时上下文注入 |
+| `thinking-block-validator` | 思考块验证 |
 
 ### 4. 语义与本地编辑工具
 
@@ -187,8 +264,50 @@ get_symbols_overview -> find_symbol -> find_referencing_symbols -> search_for_pa
 
 ### 6. 命令化能力
 
-- `slashcommand` 可调用内置命令/技能（示例：`/start-work`, `/refactor`, `/ulw-loop`, `/ralph-loop`；以当前运行时可用列表为准）
-- 复杂任务优先 “先计划再执行”：`@plan`（或 Prometheus）-> `/start-work`（命令名变更时以当前 `slashcommand` 列表为准）
+- 内置命令（8 个）：`/init-deep`、`/ralph-loop`、`/ulw-loop`、`/cancel-ralph`、`/refactor`、`/start-work`、`/stop-continuation`、`/handoff`（以当前运行时可用列表为准）
+- `ralph-loop`：默认 100 次迭代，检测 `<promise>DONE</promise>` 停止
+- `/start-work`：读取 `.sisyphus/boulder.json` 恢复或从 `.sisyphus/plans/` 初始化；支持 `--worktree`
+- `/handoff`：为新会话创建完整上下文摘要
+- 复杂任务优先 "先计划再执行"：`@plan`（或 Prometheus）-> `/start-work`
+
+---
+
+## 编排架构（三层模型）
+
+### 规划层：Prometheus + Metis + Momus
+
+- **Prometheus**：访谈式规划器，只读，生成 `.sisyphus/plans/*.md`
+- **Metis**：缺口分析器，捕捉隐含意图、歧义、缺失验收标准
+- **Momus**：计划评审员，100% 文件引用已验证、≥80% 任务有明确来源、≥90% 具体标准、零假设时才通过
+
+### 执行层：Atlas（指挥）
+
+- 可以：读文件、运行命令、`lsp_diagnostics`、搜索模式
+- 必须委派：写/编辑代码、修 bug、创建测试、git 提交
+- 智慧积累：每个任务后提取 learnings，通过 `.sisyphus/notepads/{plan}/` 传递
+- Notepad 文件：learnings.md / decisions.md / issues.md / verification.md / problems.md
+
+### 工人层：Sisyphus-Junior
+
+- 聚焦执行，不可再委派
+- Todo 驱动，`lsp_diagnostics` 必检
+- 通过 `todo-continuation-enforcer` hook 推动持续工作
+
+### 常用 Category + Skill 组合
+
+| 组合 | Category | Skills |
+|------|----------|--------|
+| 设计师 | `visual-engineering` | `frontend-ui-ux` + `playwright` |
+| 架构师 | `ultrabrain` | `[]` |
+| 维护者 | `quick` | `git-master` |
+
+### Hephaestus vs Sisyphus+ulw
+
+| 维度 | Hephaestus | Sisyphus+ulw |
+|------|-----------|-------------|
+| 模型 | GPT-5.3 Codex | Claude Opus 4.6 |
+| 工作方式 | 自主深度工作，自行规划 | 关键词激活 ultrawork，按 category 委派 |
+| 适合 | GPT-5.3 Codex 推理优势场景 | 大多数用户的默认选择 |
 
 ---
 
@@ -213,14 +332,15 @@ get_symbols_overview -> find_symbol -> find_referencing_symbols -> search_for_pa
 
 ## 委派标准（Delegation Protocol）
 
-每次 `task(...)` 委派 prompt 必须包含 6 段：
+每次 `task(...)` 委派 prompt 必须包含 7 段：
 
 1. `TASK`：单一、可执行目标
 2. `EXPECTED OUTCOME`：交付物与成功标准
-3. `REQUIRED TOOLS`：允许使用的工具清单
-4. `MUST DO`：必须满足的约束
-5. `MUST NOT DO`：禁止行为
-6. `CONTEXT`：路径、模式、边界与依赖
+3. `REQUIRED SKILLS`：需要加载的 Skill 清单
+4. `REQUIRED TOOLS`：允许使用的工具清单
+5. `MUST DO`：必须满足的约束
+6. `MUST NOT DO`：禁止行为
+7. `CONTEXT`：路径、模式、边界与依赖
 
 ### 会话连续性（必须）
 
@@ -293,7 +413,7 @@ get_symbols_overview -> find_symbol -> find_referencing_symbols -> search_for_pa
 ### 服务降级链路
 
 ```
-context7 不可用 -> ddg-search/webfetch（限定官方域名；必要时用 `grep_app` 找真实代码样例；`websearch`/Exa 依赖额外配置时再启用）
+context7 不可用 -> websearch(Exa) / ddg-search/webfetch（限定官方域名；必要时用 `grep_app` 找真实代码样例）
 外部检索不足 -> 请求用户提供额外线索
 serena 不可用 -> Read/Grep/AST 组合降级，LSP 按语言服务器可用性补充使用
 ```
