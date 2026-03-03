@@ -19,6 +19,9 @@
     "sisyphus": {
       "model": "google/antigravity-claude-opus-4-6-thinking"
     },
+    "hephaestus": {
+      "model": "openai/gpt-5.3-codex"
+    },
     "oracle": {
       "model": "openai/gpt-5.2"
     },
