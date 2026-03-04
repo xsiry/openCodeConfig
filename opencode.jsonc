@@ -1,7 +1,6 @@
 {
   "plugin": [
     "oh-my-opencode@latest",
-    "opencode-gemini-auth@latest",
     "opencode-openai-codex-auth@latest",
     "@franlol/opencode-md-table-formatter@latest",
     "@zenobius/opencode-skillful@latest",
@@ -73,7 +72,6 @@
     }
   },
   "enabled_providers": [
-    "openai",
-    "google"
+    "openai"
   ]
 }
