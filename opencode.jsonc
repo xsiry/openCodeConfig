@@ -1,7 +1,7 @@
 {
   "plugin": [
     "oh-my-opencode@latest",
-    "opencode-openai-codex-auth@latest",
+    //"opencode-openai-codex-auth@latest",
     "@franlol/opencode-md-table-formatter@latest",
     "@zenobius/opencode-skillful@latest",
     "opencode-wakatime",
