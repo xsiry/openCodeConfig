@@ -13,6 +13,13 @@
   "instructions": [
     "/home/xsiry/tools/morph-fast-apply/MORPH_INSTRUCTIONS.md"
   ],
+  "provider": {
+    "google": {
+      "options": {
+        "projectId": "cultivated-snow-489109-b8"
+      }
+    }
+  },
   "mcp": {
     "chrome-devtools": {
       "type": "local",
