@@ -1,7 +1,6 @@
 {
   "plugin": [
     "oh-my-opencode@latest",
-    //"opencode-openai-codex-auth@latest",
     "@franlol/opencode-md-table-formatter@latest",
     "@zenobius/opencode-skillful@latest",
     "opencode-wakatime",
@@ -40,9 +39,10 @@
         "uvx",
         "--from",
         "git+https://github.com/oraios/serena",
-        "serena-mcp-server",
+        "serena",
+	"start-mcp-server",
         "--context",
-        "codex",
+        "ide",
         "--enable-web-dashboard",
         "False"
       ],
