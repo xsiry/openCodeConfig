@@ -3,15 +3,14 @@
   "plugin": [
     "oh-my-opencode@latest",
     "opencode-gemini-auth@latest",
-    "opencode-openai-codex-auth@latest",
     "@franlol/opencode-md-table-formatter@latest",
     "@zenobius/opencode-skillful@latest",
     "opencode-wakatime",
     "@tarquinen/opencode-dcp@latest",
-    "/home/xsiry/tools/morph-fast-apply"
+    "@morphllm/opencode-morph-plugin"
   ],
   "instructions": [
-    "/home/xsiry/tools/morph-fast-apply/MORPH_INSTRUCTIONS.md"
+    "node_modules/@morphllm/opencode-morph-plugin/instructions/morph-tools.md"
   ],
   "provider": {
     "google": {
@@ -48,7 +47,10 @@
         "uvx",
         "--from",
         "git+https://github.com/oraios/serena",
-        "serena-mcp-server",
+        "serena",
+	"start-mcp-server",
+	"--context",
+	"ide",
         "--enable-web-dashboard",
         "False"
       ],
