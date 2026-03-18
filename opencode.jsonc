@@ -22,7 +22,8 @@
         "--isolated",
         "--executablePath",
         "/usr/sbin/google-chrome-stable"
-      ]
+      ],
+      "enabled": false
     },
     "sequential-thinking": {
       "type": "local",
@@ -55,7 +56,7 @@
         "-y",
         "@playwright/mcp@latest"
       ],
-      "enabled": true
+      "enabled": false
     },
     "ddg-search": {
       "type": "local",
@@ -63,7 +64,7 @@
         "uvx",
         "duckduckgo-mcp-server"
       ],
-      "enabled": true
+      "enabled": false
     },
     "deepwiki": {
       "type": "remote",
