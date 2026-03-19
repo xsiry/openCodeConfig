@@ -107,8 +107,16 @@
   },
   "lsp": {
     "markdown-remark": {
-      "command": ["npx", "-y", "remark-language-server", "--stdio"],
-      "extensions": [".md", ".xml"]
+      "command": [
+        "npx",
+        "-y",
+        "remark-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        ".md",
+        ".xml"
+      ]
     }
   }
 }
