@@ -4,11 +4,7 @@
     "@franlol/opencode-md-table-formatter@latest",
     "@zenobius/opencode-skillful@latest",
     "opencode-wakatime",
-    "@tarquinen/opencode-dcp@latest",
-    "@morphllm/opencode-morph-plugin"
-  ],
-  "instructions": [
-    "node_modules/@morphllm/opencode-morph-plugin/instructions/morph-tools.md"
+    "@tarquinen/opencode-dcp@latest"
   ],
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
