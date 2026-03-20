@@ -16,6 +16,16 @@
 - 除非用户明确指令，严禁主动执行破坏性命令（如 `rm -rf` 等不可逆操作）或直接进行 Git 提交。若需提交，必须先检查变更并提供 Commit Message 草稿供确认。
 - 验证 OpenCode 配置时优先查看官方 config docs / schema 与本地 `opencode.jsonc`；验证 Oh-My-OpenCode 配置时优先查看官方 GitHub Repo / Release / schema 与本地 `oh-my-opencode.jsonc`，必要时运行 `bunx oh-my-opencode doctor --json` 或 `--verbose`。
 
+## 战略协调与委派约束
+
+- **委派优先本地化**：严禁在未穷尽本地搜索/阅读工具（如 `serena`, `grep_search`）前委派子代理；禁止委派简单的多文件读取或正则替换任务。
+- **任务目标具体化**：调用 `generalist` 或 `codebase_investigator` 时，必须给定具体的文件范围或明确的诊断目标，严禁使用“探索架构”等模糊、易触发递归调用的指令。
+- **深度控制**：严禁子代理递归创建新的子代理（Depth Limit = 1）；在必须使用子代理时，必须明确指定其工作生命周期（Research/Execution）以防止其无限制运行。
+
+- **工具输出管理**：在调用 `grep_search`, `list_dir` 或类似工具时，严禁对根目录或 `node_modules` 等大文件夹执行无过滤操作。必须结合 `include_pattern` 或 `exclude_pattern` 明确缩减搜索范围，以避免向上下文传递海量无用信息。
+- **单供应商与批处理约束**：系统当前受限于单一 OpenAI 供应商且有严格的并发上限（5）。面对多个文件的同类修改任务，严禁盲目发起多个并发子代理；必须优先在当前会话中通过本地工具（如 `serena` 或 `replace`）进行串行批处理。
+- **上下文断层感知**：系统已开启激进的上下文裁剪（如错误日志自动清理）。在执行复杂或长链路任务时，代理必须主动将关键发现、架构决策或中间结果记录到本地临时文件或通过 `save_memory` 持久化，防止因上下文修剪导致“失忆”。
+
 ## 维护
 
 - 仅在本地长期工作方式变化，或官方行为变更已影响本地协作策略时更新本文件。
