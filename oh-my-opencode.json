@@ -4,7 +4,7 @@
     "sisyphus": {
       "model": "openai/gpt-5.4",
       "variant": "medium",
-      "steps": 20
+      "steps": 12
     },
     "hephaestus": {
       "model": "openai/gpt-5.3-codex",
@@ -25,7 +25,7 @@
     "prometheus": {
       "model": "openai/gpt-5.4",
       "variant": "high",
-      "steps": 20
+      "steps": 10
     },
     "metis": {
       "model": "openai/gpt-5.4",
@@ -108,10 +108,10 @@
     "main_pane_size": 60
   },
   "background_task": {
-    "defaultConcurrency": 5,
+    "defaultConcurrency": 2,
     "staleTimeoutMs": 180000,
     "providerConcurrency": {
-      "openai": 5
+      "openai": 2
     }
   },
   "experimental": {
