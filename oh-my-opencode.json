@@ -15,7 +15,7 @@
       "variant": "high"
     },
     "explore": {
-      "model": "openai/gpt-5.4",
+      "model": "openai/gpt-5.4-mini",
       "variant": "medium"
     },
     "multimodal-looker": {
@@ -40,11 +40,11 @@
       "variant": "medium"
     },
     "sisyphus-junior": {
-      "model": "openai/gpt-5.4",
+      "model": "openai/gpt-5.4-mini",
       "variant": "medium"
     },
     "librarian": {
-      "model": "openai/gpt-5.4",
+      "model": "openai/gpt-5.4-mini",
       "variant": "medium"
     }
   },
@@ -62,11 +62,11 @@
       "variant": "medium"
     },
     "quick": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4-mini",
       "variant": "low"
     },
     "unspecified-low": {
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.4-mini",
       "variant": "medium"
     },
     "unspecified-high": {
