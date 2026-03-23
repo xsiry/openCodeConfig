@@ -109,10 +109,7 @@
   },
   "background_task": {
     "defaultConcurrency": 3,
-    "staleTimeoutMs": 180000,
-    "providerConcurrency": {
-      "openai": 3
-    }
+    "staleTimeoutMs": 180000
   },
   "experimental": {
     "dynamic_context_pruning": {
