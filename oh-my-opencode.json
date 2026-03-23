@@ -108,10 +108,10 @@
     "main_pane_size": 60
   },
   "background_task": {
-    "defaultConcurrency": 2,
+    "defaultConcurrency": 3,
     "staleTimeoutMs": 180000,
     "providerConcurrency": {
-      "openai": 2
+      "openai": 3
     }
   },
   "experimental": {
