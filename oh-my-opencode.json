@@ -138,6 +138,10 @@
         ".md",
         ".xml"
       ]
+    },
+    "my-server": {
+      "command": ["my-lsp", "--stdio"],
+      "extensions": [".java"]
     }
   }
 }

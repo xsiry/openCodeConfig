@@ -46,6 +46,13 @@
 - Librarian 只有在本地搜索无法回答且问题确实依赖外部库/API 行为时才启用；优先单个官方文档页，禁止默认多轮广泛网页抓取。
 - 当用户是在问“原因、建议、是否可优化”这类分析问题时，默认只读本地配置与官方文档；禁止未加约束地同时启动 explore、librarian、oracle 全链路调研。
 
+### gstack 与 superpowers 分工
+
+- `superpowers` 优先承担通用工程流程约束，例如 brainstorming、writing-plans、systematic-debugging、verification-before-completion 这类“先怎么做、再怎么验收”的方法论技能。
+- `gstack` 优先承担仓库内的产品化执行流，例如 office-hours、plan-*、review、qa、browse、ship、land-and-deploy、design-review 这类贴近交付、验证与发布的技能。
+- 当两者都能覆盖同一任务时，默认先用 `superpowers` 锁定流程与质量门禁，再按需要进入 `gstack` 的专项执行链路；避免在同一子问题上来回切换两套流程。
+- 在记录长期协作规范时，只写稳定的职责边界与取舍规则；技能清单、运行时配置和临时安装状态仍以实际环境发现结果为准。
+
 ### Skill 与 MCP 路由
 
 - 当任务与某个 skill 的领域明显重合时，优先加载 skill，并先使用 skill 文档、skill 资源与 skill 内嵌 MCP；只有 skill 不能覆盖、或验证后不足以完成任务时，才升级到通用 MCP 或子代理。

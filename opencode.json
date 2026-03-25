@@ -4,9 +4,15 @@
     "@franlol/opencode-md-table-formatter@latest",
     "@zenobius/opencode-skillful@latest",
     "opencode-wakatime",
-    "@tarquinen/opencode-dcp@latest"
+    "@tarquinen/opencode-dcp@latest",
+    "superpowers@git+https://github.com/obra/superpowers.git"
   ],
   "$schema": "https://opencode.ai/config.json",
+  "lsp": {
+    "jdtls": {
+      "disabled": true
+    }
+  },
   "model": "openai/gpt-5.4",
   "small_model": "openai/gpt-5.4-mini",
   "mcp": {
