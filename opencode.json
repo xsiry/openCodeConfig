@@ -5,7 +5,8 @@
     "@zenobius/opencode-skillful@latest",
     "opencode-wakatime",
     "@tarquinen/opencode-dcp@latest",
-    "superpowers@git+https://github.com/obra/superpowers.git"
+    "superpowers@git+https://github.com/obra/superpowers.git",
+    "opencode-token-monitor"
   ],
   "$schema": "https://opencode.ai/config.json",
   "lsp": {
