@@ -2,13 +2,22 @@
   "plugin": [
     "oh-my-opencode",
     "@franlol/opencode-md-table-formatter@latest",
-    "opencode-wakatime",
     "@tarquinen/opencode-dcp@latest",
     "superpowers@git+https://github.com/obra/superpowers.git",
     "opencode-token-monitor"
   ],
   "$schema": "https://opencode.ai/config.json",
   "lsp": {
+    "kotlin-ls": {
+      "command": [
+        "kotlin-lsp",
+        "--stdio"
+      ],
+      "extensions": [
+        ".kt",
+        ".kts"
+      ]
+    },
     "jdtls": {
       "disabled": true
     }
