@@ -69,7 +69,7 @@
         "-y",
         "@playwright/mcp@latest"
       ],
-      "enabled": false
+      "enabled": true
     },
     "ddg-search": {
       "type": "local",

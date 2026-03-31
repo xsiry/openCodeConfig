@@ -2,7 +2,7 @@
 
 ## 作用
 
-- 本文件只保留当前用户长期有效的全局协作约束；OpenCode / Oh-My-OpenCode 的运行时配置以 `~/.config/opencode/opencode.json` 和 `~/.config/opencode/oh-my-opencode.json` 为准，不在此重复 agent、category、skill、model、MCP、plugin、hook 等动态事实。
+- 本文件只保留当前用户长期有效的全局协作约束；OpenCode / Oh-My-OpenCode 的运行时配置以 `~/.config/opencode/opencode.json[c]` 和 `~/.config/opencode/oh-my-opencode.json[c]` 为准，不在此重复 agent、category、skill、model、MCP、plugin、hook 等动态事实。
 - 若本文件与运行时工具、官方文档、schema 或 `doctor` 输出冲突，以实际运行结果为准；凡是可以稳定写入配置文件或 schema 的内容，都不要写进本文件。
 
 ## 硬约束（必须遵守）
@@ -13,7 +13,7 @@
 - 结论优先基于实际读取、搜索、诊断或验证结果，不对未读代码和未验证行为作判断。遇到报错或执行异常时，严禁“盲猜”修复，必须基于真实的错误日志和局部代码读取进行分析闭环。
 - 阅读代码秉持“按需加载”原则，避免无意义的全文件读取；利用搜索和符号树精确锁定上下文范围。
 - 除非用户明确指令，严禁主动执行破坏性命令（如 `rm -rf` 等不可逆操作）或直接进行 Git 提交。若需提交，必须先检查变更并提供 Commit Message 草稿供确认。
-- 验证 OpenCode 配置时优先查看官方 config docs / schema 与本地 `opencode.json`；验证 Oh-My-OpenCode 配置时优先查看官方 GitHub Repo / Release / schema 与本地 `oh-my-opencode.json`，必要时运行 `bunx oh-my-opencode doctor --json` 或 `--verbose`。
+- 验证 OpenCode 配置时优先查看官方 config docs / schema 与本地 `opencode.json[c]`；验证 Oh-My-OpenCode（现官方仓库名为 `oh-my-openagent`，仍兼容旧称 `oh-my-opencode`）配置时，优先查看官方 GitHub Repo / Release / schema 与本地 `oh-my-opencode.json[c]`，必要时运行其 `bunx oh-my-opencode doctor` 相关诊断命令（如 `--json`、`--verbose`）。
 
 ## 代码注释硬约束
 
@@ -43,14 +43,11 @@
 - 调用 `explore`、`librarian`、`metis`、`momus`、`oracle` 等子代理时，必须给定具体的文件范围、资料范围或明确诊断目标，严禁使用“探索架构”“随便看看”这类模糊、易触发失控扩搜的指令。
 - 严禁子代理递归创建新的子代理（Depth Limit = 1）；在必须使用子代理时，必须明确指定其工作生命周期（Research/Execution）以防止其无限制运行。
 - Oracle 仅用于架构权衡、两次以上失败后的调试、跨系统复杂问题；普通配置分析、常规代码阅读、轻量 review 禁止调用 Oracle。
-- Librarian 只有在本地搜索无法回答且问题确实依赖外部库/API 行为时才启用；优先单个官方文档页，禁止默认多轮广泛网页抓取。
-- 当用户是在问“原因、建议、是否可优化”这类分析问题时，默认只读本地配置与官方文档；禁止未加约束地同时启动 explore、librarian、oracle 全链路调研。
+- 分析类问题默认先读本地配置与官方文档；只有在本地搜索无法回答且问题确实依赖外部库/API 行为时才启用 Librarian，并优先单个官方文档页。禁止未加约束地同时启动 explore、librarian、oracle 全链路调研。
 
-### gstack 与 superpowers 分工
+### superpowers 默认分工
 
 - `superpowers` 优先承担通用工程流程约束，例如 brainstorming、writing-plans、systematic-debugging、verification-before-completion 这类“先怎么做、再怎么验收”的方法论技能。
-- `gstack` 优先承担仓库内的产品化执行流，例如 office-hours、plan-*、review、qa、browse、ship、land-and-deploy、design-review 这类贴近交付、验证与发布的技能。
-- 当两者都能覆盖同一任务时，默认先用 `superpowers` 锁定流程与质量门禁，再按需要进入 `gstack` 的专项执行链路；避免在同一子问题上来回切换两套流程。
 - 在记录长期协作规范时，只写稳定的职责边界与取舍规则；技能清单、运行时配置和临时安装状态仍以实际环境发现结果为准。
 
 ### Skill 与 MCP 路由
@@ -58,23 +55,23 @@
 - 当任务与某个 skill 的领域明显重合时，优先加载 skill，并先使用 skill 文档、skill 资源与 skill 内嵌 MCP；只有 skill 不能覆盖、或验证后不足以完成任务时，才升级到通用 MCP 或子代理。
 - 对前端/UI 优先检查 `ui-ux-pro-max`、`frontend-design`、`tailwind-design-system`、`web-design-guidelines`；对测试优先检查 `playwright-best-practices`；对类型系统优先检查 `typescript-advanced-types`。
 - 优先使用返回结构化、短结果、可替代大段原文读取的 MCP；全局/通用 MCP 晚于本地工具与 skill 内嵌 MCP 使用，只有在本地工具无法高效完成且 MCP 能明显减少读取体积时才启用。
-- 在当前默认配置下，优先把 `serena` 用作代码结构理解/精确修改，把 `sequential-thinking` 用作复杂推理拆解；其余默认关闭的 MCP 仅在任务明确需要时再启用。
+- 在当前默认配置下，优先复用本地已启用且与任务高度匹配的能力：例如用 `serena` 做代码结构理解/精确修改；复杂推理优先使用当前已启用的思维/推理能力。其余未启用的 MCP 仅在任务明确需要时再启用。
 - 不区分“自带”或“外挂”作为 MCP 优先级依据，只看是否结构化、低噪声、低上下文占用、与当前任务强相关；若两个 MCP 能力重叠，优先选择输出更短、更定向、可按 agent 单独启用的那一个。
 
 ## 默认偏好（可按任务调整）
 
-- 默认最多同时发起 2 个 background agents；只有在用户明确要求“全面外部调研”或任务明确跨代码库/跨外部文档时，才允许提升到 3。若任务只依赖本地代码/配置，不得为了“更快”盲目开满并发。
+- 默认按任务复杂度保守控制 background agents 并发，且不超过当前运行时配置上限；只有在用户明确要求“全面外部调研”或任务明确跨代码库/跨外部文档时，才应提升并发。若任务只依赖本地代码/配置，不得为了“更快”盲目开满并发。
 - 分析类任务优先 `serena` / `grep` / symbol overview；禁止为了确认单点问题而读取整文件簇或大段无关工具输出。
 - 若已有足够证据支持结论，禁止继续追加检索；连续两轮没有新增信息时必须停止搜索并转入汇总。
 - 在调用 `grep`、`glob`、`serena_list_dir`、`serena_search_for_pattern` 或类似工具时，严禁对根目录或 `node_modules` 等大文件夹执行无过滤操作。必须结合路径、glob 或 include/exclude 条件明确缩减搜索范围，以避免向上下文传递海量无用信息。
-- 系统当前受限于单一 OpenAI 供应商。面对多个文件的同类修改任务，严禁盲目发起多个并发子代理；必须优先在当前会话中通过本地工具（如 `serena_replace_content`、`apply_patch`）进行串行批处理。
+- 当运行环境或供应商能力对并发与成本形成约束时，面对多个文件的同类修改任务，严禁盲目发起多个并发子代理；必须优先在当前会话中通过本地工具（如 `serena_replace_content`、`apply_patch`）进行串行批处理。
 - 系统已开启激进的上下文裁剪（如错误日志自动清理）。在执行复杂或长链路任务时，代理应主动将关键发现、架构决策或中间结果记录到本地临时文件或通过 `serena_write_memory` 持久化，防止因上下文修剪导致“失忆”。
 
 ## 当前配置下的执行偏好
 
-- 默认以 `gpt-5.4` 承担主编排、审查和高价值判断，以 `gpt-5.4-mini` 承担搜索、轻量检索和低成本执行；除非任务目标明确需要执行型强模型，否则不要轻易把搜索型代理升级为更重模型。
-- `deep`、`quick` 等 category 的模型选择优先尊重 `oh-my-opencode.json` 的当前配置与官方语义；不要在 `AGENTS.md` 中写死具体模型名作为长期规范，避免与运行时配置漂移。
-- 当任务与本地长期启用能力高度匹配时，优先复用已启用能力：代码理解/修改优先 `serena`，复杂推理优先 `sequential-thinking`，文档校验可使用现有 markdown LSP；不要为了同类能力重复引入新链路。
+- 主编排、审查、搜索与轻量执行的具体模型/agent 分工，优先尊重 `opencode.json` 与 `oh-my-opencode.json[c]` 的当前配置；不要在 `AGENTS.md` 中写死具体模型名、默认 agent 配比或临时运行时偏好，避免与配置漂移。
+- `deep`、`quick` 等 category 的模型选择优先尊重 `oh-my-opencode.json[c]` 的当前配置与官方语义；若配置变更，优先改 JSON，而不是在 `AGENTS.md` 中追写运行时细节。
+- 当任务与本地长期启用能力高度匹配时，优先复用已启用能力：代码理解/修改优先 `serena`，复杂推理优先当前已启用的推理能力，文档校验优先现有 markdown LSP；不要为了同类能力重复引入新链路。
 
 ## 维护
 
