@@ -71,6 +71,9 @@
 
 - 当任务与某个 skill 的领域明显重合时，优先加载 skill，并先使用 skill 文档、skill 资源与 skill 内嵌 MCP；只有 skill 不能覆盖、或验证后不足以完成任务时，才升级到通用 MCP 或子代理。
 - 对前端/UI 优先检查 `ui-ux-pro-max`、`frontend-design`、`tailwind-design-system`、`web-design-guidelines`；对测试优先检查 `playwright-best-practices`；对类型系统优先检查 `typescript-advanced-types`。
+- 处理前端/UI 重叠 skill 时，默认按职责细分选择：`ui-ux-pro-max` 用于大范围 UI/UX 方案设计、综合评审与多维度优化；`frontend-design` 用于直接产出高设计感页面或组件实现；`tailwind-design-system` 用于设计系统、组件库、Token 与 Tailwind 规范化；`web-design-guidelines` 用于做规范性审查、可访问性/交互/体验检查；`screenshot-to-code` 仅在用户明确提供截图并要求还原界面时使用。
+- 处理 React/Next 相关最佳实践时，`next-best-practices` 优先用于 Next.js 目录约定、RSC 边界、路由、数据获取与框架层模式；`vercel-react-best-practices` 优先用于 React/Next 性能优化、渲染成本、Bundle、组件级性能问题。若同时涉及两者，先按问题主轴选主要 skill，再按需补充另一个，不要把二者都当成泛化入口默认同时加载。
+- 处理 Playwright/浏览器相关任务时，`playwright-best-practices` 仅用于 Playwright 测试编写、测试架构、稳定性、CI、调试与最佳实践；若任务目标是“实际打开网页、交互、抓取、截图、验证页面行为”，优先走当前运行时可用的浏览器自动化 provider / builtin skill，而不是把 `playwright-best-practices` 当作浏览器执行入口。
 - 优先使用返回结构化、短结果、可替代大段原文读取的 MCP；全局/通用 MCP 晚于本地工具与 skill 内嵌 MCP 使用，只有在本地工具无法高效完成且 MCP 能明显减少读取体积时才启用。
 - 在当前默认配置下，优先复用本地已启用且与任务高度匹配的能力：例如用 `serena` 做代码结构理解/精确修改；复杂推理优先使用当前已启用的思维/推理能力。其余未启用的 MCP 仅在任务明确需要时再启用。
 - 不区分“自带”或“外挂”作为 MCP 优先级依据，只看是否结构化、低噪声、低上下文占用、与当前任务强相关；若两个 MCP 能力重叠，优先选择输出更短、更定向、可按 agent 单独启用的那一个。
