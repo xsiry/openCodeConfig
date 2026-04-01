@@ -49,10 +49,28 @@
 - Oracle 仅用于架构权衡、两次以上失败后的调试、跨系统复杂问题；普通配置分析、常规代码阅读、轻量 review 禁止调用 Oracle。
 - 分析类问题默认先读本地配置与官方文档；只有在本地搜索无法回答且问题确实依赖外部库/API 行为时才启用 Librarian，并优先单个官方文档页。禁止未加约束地同时启动 explore、librarian、oracle 全链路调研。
 
+### search-mode / analyze-mode 约定
+
+- 当用户显式进入 `[search-mode]` 时，按“高检索强度”执行：在遵守运行时并发上限与上下文预算的前提下，优先并行启动多个 `explore` 子代理（代码结构、实现模式、AST 级检索）与 `librarian` 子代理（官方文档、远程仓库、GitHub 示例），并配合本地 `grep`、`ast-grep`、`lsp_*` 等工具做补充交叉验证；禁止拿到首个结果就停止，必须在信息开始重复或证据已充分闭环后再汇总。
+- 当用户显式进入 `[analyze-mode]` 时，先做上下文收集，再进入结论或改动：默认并行使用 1 到 2 个 `explore` 子代理，必要时再加 1 到 2 个 `librarian` 子代理，并辅以定向 `grep`、`ast-grep`、`lsp_*` 搜索；完成一轮信息汇合后，必须先综合发现，再决定是否继续深挖。
+- `search-mode` / `analyze-mode` 只是提升检索强度与并行度，不改变“本地证据优先、官方来源优先、避免无边界扩搜”的基本原则；若问题只依赖本地代码或配置，不得为了形式化满足模式而无约束地启动外部检索。
+- 在 OpenCode + Oh-My-OpenCode 下，是否启用更多 background agents、使用哪些 category / subagent，优先受当前 `opencode.json[c]`、`oh-my-opencode.json[c]` 与实际工具可用性约束；`AGENTS.md` 只定义策略，不写死具体模型、固定并发数或临时 agent 编排。
+- 若一次分析明显超出常规复杂度，不要独自长时间卡住：常规架构权衡、复杂调试、疑难逻辑优先咨询 `oracle`；需要跳出常规解法、尝试非常规思路时，再考虑 `artistry`。调用前必须先完成至少一轮本地证据收集，并明确诊断目标与预期产出。
+
 ### superpowers 默认分工
 
 - `superpowers` 优先承担通用工程流程约束，例如 brainstorming、writing-plans、systematic-debugging、verification-before-completion 这类“先怎么做、再怎么验收”的方法论技能。
 - 在记录长期协作规范时，只写稳定的职责边界与取舍规则；技能清单、运行时配置和临时安装状态仍以实际环境发现结果为准。
+
+### Superpowers 本地覆写
+
+- 轻量任务默认不进入完整的 `brainstorming` / `writing-plans` / `using-git-worktrees` / `subagent-driven-development` 链路，而是直接基于现有上下文分析并实现；只有遇到关键不确定性时才提问，且首次最多问 1 个问题。
+- 轻量任务通常指单文件或小范围修改、明确 bug 修复、配置调整、文案修改、小测试补充；若任务在执行中扩展为多阶段或跨模块改动，应及时升级到完整流程。
+- 若项目上下文、`AGENTS.md`、现有代码、配置或已读文档已经足以回答问题，不要重复向用户确认。
+- 除非用户明确要求，否则不要默认创建 worktree，也不要默认把 spec / plan 写入 git 历史。
+- 在 OpenCode + Oh-My-OpenCode 下，如需按计划执行，默认优先 `executing-plans`；只有当任务天然适合并行、且平台对子代理支持稳定时，才使用 `subagent-driven-development`。整体上优先单会话、本地工具、可验证的串行执行，避免为轻量任务强行拆分子代理。
+- 需要用户确认时，优先一次性给出 2 到 3 个可选方案、影响和推荐项，避免拆成过多轮确认。
+- 删除文件、大规模重构、修改 git 历史、推送远程、变更环境配置、调整 CI、数据库变更等仍属于高影响操作，必须先征得用户确认。
 
 ### Skill 与 MCP 路由
 
