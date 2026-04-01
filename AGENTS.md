@@ -57,11 +57,6 @@
 - 在 OpenCode + Oh-My-OpenCode 下，是否启用更多 background agents、使用哪些 category / subagent，优先受当前 `opencode.json[c]`、`oh-my-opencode.json[c]` 与实际工具可用性约束；`AGENTS.md` 只定义策略，不写死具体模型、固定并发数或临时 agent 编排。
 - 若一次分析明显超出常规复杂度，不要独自长时间卡住：常规架构权衡、复杂调试、疑难逻辑优先咨询 `oracle`；需要跳出常规解法、尝试非常规思路时，再考虑 `artistry`。调用前必须先完成至少一轮本地证据收集，并明确诊断目标与预期产出。
 
-### superpowers 默认分工
-
-- `superpowers` 优先承担通用工程流程约束，例如 brainstorming、writing-plans、systematic-debugging、verification-before-completion 这类“先怎么做、再怎么验收”的方法论技能。
-- 在记录长期协作规范时，只写稳定的职责边界与取舍规则；技能清单、运行时配置和临时安装状态仍以实际环境发现结果为准。
-
 ### Superpowers 本地覆写
 
 - 轻量任务默认不进入完整的 `brainstorming` / `writing-plans` / `using-git-worktrees` / `subagent-driven-development` 链路，而是直接基于现有上下文分析并实现；只有遇到关键不确定性时才提问，且首次最多问 1 个问题。
