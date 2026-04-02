@@ -134,8 +134,13 @@
       ]
     },
     "my-server": {
-      "command": ["my-lsp", "--stdio"],
-      "extensions": [".java"]
+      "command": [
+        "my-lsp",
+        "--stdio"
+      ],
+      "extensions": [
+        ".java"
+      ]
     }
   }
 }
