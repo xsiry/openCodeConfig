@@ -1,10 +1,10 @@
 {
   "plugin": [
     "@franlol/opencode-md-table-formatter@latest",
-    "@tarquinen/opencode-dcp@latest",
     "superpowers@git+https://github.com/obra/superpowers.git",
     "opencode-token-monitor",
-    "oh-my-openagent"
+    "oh-my-openagent",
+    "opencode-vibeguard"
   ],
   "$schema": "https://opencode.ai/config.json",
   "lsp": {
