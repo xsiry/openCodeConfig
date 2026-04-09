@@ -83,8 +83,8 @@
   "plugin": [
     "@franlol/opencode-md-table-formatter@latest",
     "opencode-token-monitor",
-    "oh-my-openagent",
-    "opencode-vibeguard"
+    "opencode-vibeguard",
+    "oh-my-openagent@latest"
   ],
   "small_model": "openai/gpt-5.4-mini"
 }
