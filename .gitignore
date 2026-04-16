@@ -5,3 +5,6 @@ bun.lock
 .spec-workflow/
 .serena/
 _tmp/
+opencode.json.backup-*
+oh-my-openagent.json.backup-*
+oh-my-opencode.json.backup-*
