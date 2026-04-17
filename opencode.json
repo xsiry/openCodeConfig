@@ -82,9 +82,13 @@
   "model": "openai/gpt-5.4",
   "plugin": [
     "@franlol/opencode-md-table-formatter@latest",
+    "@morphllm/opencode-morph-plugin",
     "opencode-token-monitor",
     "opencode-vibeguard",
     "oh-my-openagent@latest"
+  ],
+  "instructions": [
+    "node_modules/@morphllm/opencode-morph-plugin/instructions/morph-tools.md"
   ],
   "small_model": "openai/gpt-5.4-mini"
 }
