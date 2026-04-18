@@ -83,7 +83,6 @@
   "plugin": [
     "@franlol/opencode-md-table-formatter@latest",
     "@morphllm/opencode-morph-plugin",
-    "opencode-token-monitor",
     "opencode-vibeguard",
     "oh-my-openagent@latest"
   ],
