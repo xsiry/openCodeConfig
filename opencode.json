@@ -79,7 +79,7 @@
       "type": "local"
     }
   },
-  "model": "openai/gpt-5.4",
+  "model": "openai/gpt-5.5",
   "plugin": [
     "@franlol/opencode-md-table-formatter@latest",
     "@morphllm/opencode-morph-plugin",
