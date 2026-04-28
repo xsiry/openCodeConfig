@@ -93,6 +93,9 @@
     "plugins": false,
     "skills": false
   },
+  "browser_automation_engine": {
+    "provider": "agent-browser"
+  },
   "git_master": {
     "commit_footer": false,
     "include_co_authored_by": false
