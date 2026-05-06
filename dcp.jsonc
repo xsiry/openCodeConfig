@@ -1,0 +1,78 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Opencode-DCP/opencode-dynamic-context-pruning/master/dcp.schema.json",
+  "enabled": true,
+  "debug": false,
+  "pruneNotification": "minimal",
+  "pruneNotificationType": "chat",
+  "commands": {
+    "enabled": true,
+    "protectedTools": [
+      "task",
+      "skill",
+      "todowrite",
+      "session_*",
+      "lsp_rename"
+    ]
+  },
+  "manualMode": {
+    "enabled": false,
+    "automaticStrategies": true
+  },
+  "turnProtection": {
+    "enabled": true,
+    "turns": 3
+  },
+  "experimental": {
+    "allowSubAgents": true,
+    "customPrompts": false
+  },
+  "protectedFilePatterns": [
+    "**/opencode.json",
+    "**/oh-my-openagent.json",
+    "**/dcp.jsonc",
+    "**/AGENTS.md",
+    "**/CLAUDE.md"
+  ],
+  "compress": {
+    "mode": "range",
+    "permission": "allow",
+    "showCompression": false,
+    "summaryBuffer": true,
+    "maxContextLimit": "70%",
+    "minContextLimit": "35%",
+    "nudgeFrequency": 3,
+    "iterationNudgeThreshold": 10,
+    "nudgeForce": "strong",
+    "protectedTools": [
+      "task",
+      "skill",
+      "todowrite",
+      "session_*",
+      "lsp_rename"
+    ],
+    "protectUserMessages": false
+  },
+  "strategies": {
+    "deduplication": {
+      "enabled": true,
+      "protectedTools": [
+        "task",
+        "skill",
+        "todowrite",
+        "session_*",
+        "lsp_rename"
+      ]
+    },
+    "purgeErrors": {
+      "enabled": true,
+      "turns": 5,
+      "protectedTools": [
+        "task",
+        "skill",
+        "todowrite",
+        "session_*",
+        "lsp_rename"
+      ]
+    }
+  }
+}
