@@ -84,8 +84,8 @@
     "@franlol/opencode-md-table-formatter@latest",
     "@morphllm/opencode-morph-plugin",
     "opencode-vibeguard",
-    "oh-my-openagent",
-    "@tarquinen/opencode-dcp@3.1.9"
+    "@tarquinen/opencode-dcp@3.1.9",
+    "oh-my-openagent@latest"
   ],
   "instructions": [
     "node_modules/@morphllm/opencode-morph-plugin/instructions/morph-tools.md"
