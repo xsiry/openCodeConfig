@@ -18,6 +18,7 @@
 - 除非用户明确要求，严禁主动执行破坏性操作、修改 Git 历史、推送远程或直接提交；若需提交，必须先检查变更并给出 commit message 草稿。
 - 验证 OpenCode / Oh-My-OpenAgent 配置时，必须牢记“本地文件不等于最终生效结果”：OpenCode 配置会按多来源合并，且可能受 `.opencode/`、`OPENCODE_CONFIG[_CONTENT|_DIR]`、managed settings、远端组织配置等影响；Oh-My-OpenAgent 也存在兼容层、迁移逻辑与运行时注册行为。遇到歧义时，优先以 schema、当前生效配置与 `doctor --verbose` 结论为准。
 - Oh-My-OpenAgent 仍处于新旧命名并存的兼容期：plugin entry、配置文件 basename、schema/包名/CLI 名称可能暂时不完全一致。不要把某个单一名字、单一路径或单一命令写成永久真相。
+- 动态筛选条件不要写成 :param IS NULL OR ... / CASE WHEN ... 这类 JPQL 拼法，筛选条件统一走 Specification
 
 ## 代码注释硬约束
 
