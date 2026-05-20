@@ -2,9 +2,10 @@
 
 ## 作用
 
-- 本文件只保留当前用户长期有效的全局协作约束；运行时真相与当前生效配置，以 OpenCode / Oh-My-OpenAgent 官方文档、schema、当前生效配置与 `doctor` / 诊断输出交叉核对为准。
-- 不要把 agent、category、model、provider、MCP、plugin、hook、技能清单、命令清单、并发数、缓存状态、fallback 链或其他运行时快照回写进 `AGENTS.md`。
-- 凡是更适合写进 `opencode.json[c]`、`oh-my-openagent.json[c]` / `oh-my-opencode.json[c]`、skill 文档、command 模板、插件配置或独立模板文件的内容，优先不要堆进 `AGENTS.md`。
+- 本文件只保留当前用户长期有效的全局协作约束；运行时真相与当前生效配置，以 OpenCode / Oh-My-OpenAgent 官方文档、schema、当前生效配置、实际工具描述与 `doctor` / 诊断输出交叉核对为准。
+- `AGENTS.md` 是协作规则层，不是配置清单层；不要把 agent、category、model、provider、MCP、plugin、hook、skill、command、并发数、缓存状态、fallback 链或其他运行时快照写成长期事实。
+- 凡是更适合写进 `opencode.json[c]`、`tui.json[c]`、`.opencode/`、`oh-my-openagent.json[c]` / `oh-my-opencode.json[c]`、skill 文档、command 模板、插件配置或独立模板文件的内容，优先不要堆进 `AGENTS.md`。
+- 本文件可以记录“如何判断真相、如何选择工具、如何保护用户变更”这类稳定原则；不记录“当前安装了什么、当前模型链是什么、某次诊断输出是什么”。
 
 ## 硬约束（必须遵守）
 
@@ -16,8 +17,9 @@
 - 结论与能力可用性判断优先基于实际读取、搜索、诊断或验证结果，不对未读代码、未验证行为或状态不明的能力作判断；遇到错误时严禁盲猜修复，必须基于真实日志和局部代码读取闭环分析。
 - 阅读代码坚持按需加载，先局部定位，再展开上下文，避免无意义的大范围整仓/整文件读取。
 - 除非用户明确要求，严禁主动执行破坏性操作、修改 Git 历史、推送远程或直接提交；若需提交，必须先检查变更并给出 commit message 草稿。
-- 验证 OpenCode / Oh-My-OpenAgent 配置时，必须牢记“本地文件不等于最终生效结果”：OpenCode 配置会按多来源合并，且可能受 `.opencode/`、`OPENCODE_CONFIG[_CONTENT|_DIR]`、managed settings、远端组织配置等影响；Oh-My-OpenAgent 也存在兼容层、迁移逻辑与运行时注册行为。遇到歧义时，优先以 schema、当前生效配置与 `doctor --verbose` 结论为准。
-- Oh-My-OpenAgent 仍处于新旧命名并存的兼容期：plugin entry、配置文件 basename、schema/包名/CLI 名称可能暂时不完全一致。不要把某个单一名字、单一路径或单一命令写成永久真相。
+- 验证 OpenCode / Oh-My-OpenAgent 配置时，必须牢记“本地文件不等于最终生效结果”：OpenCode 配置按多来源合并而不是简单替换，可能受远端组织配置、全局配置、`OPENCODE_CONFIG`、项目配置、`.opencode/` 目录、`OPENCODE_CONFIG_CONTENT`、`OPENCODE_CONFIG_DIR`、managed settings / MDM、schema 迁移与运行时注册共同影响。遇到歧义时，优先以官方 schema、当前生效配置、实际工具描述、`opencode debug config`、`doctor --verbose` 或等价诊断结论为准。
+- Oh-My-OpenAgent 仍处于新旧命名并存的兼容期：plugin entry、配置文件 basename、schema/包名/CLI 名称可能暂时不完全一致；同时 runtime fallback、model capability normalization、agent/category 覆盖与内置特性启停会影响实际行为。不要把某个单一名字、单一路径、单一命令或单次诊断结果写成永久真相。
+- 不得把密钥、OAuth token、cookie、API key 或可还原敏感信息写进 `AGENTS.md`、示例配置或总结；配置中确需引用敏感值时优先使用环境变量、文件引用或项目既有 secret 管理方式。
 - 动态筛选条件不要写成 :param IS NULL OR ... / CASE WHEN ... 这类 JPQL 拼法，筛选条件统一走 Specification
 
 ## 代码注释硬约束
@@ -40,26 +42,42 @@
 
 - 能从仓库内已有代码、配置、schema、注释和本地文档回答的问题，不要先求助外部资料。
 - 默认优先本地结构化工具，其次本地文本搜索/读取；只有在本地证据不足且问题确实依赖外部事实时，再升级到官方文档、定向 MCP 或外部检索型子代理。
-- 搜索范围必须显式收敛；避免对根目录、`node_modules` 或其他大目录做无过滤搜索。
+- 搜索范围必须显式收敛；避免对根目录、`node_modules` 或其他大目录做无过滤搜索，除非已经限定到具体包、文件或 schema。
 - 已有足够证据支持结论时必须停止追加检索；连续两轮没有新增信息时，应转入汇总而不是继续扩搜。
 - 长链路任务中优先保留“关键发现的简洁摘要”，而不是把大段原始输出反复塞进上下文。
-- 配置核对时，先分清“文档规范 / schema 能力 / 本地静态文件 / 当前生效配置 / 运行时诊断”五层含义，不要把任一层混同为全部真相。
+- 配置核对时，先分清“文档规范 / schema 能力 / 本地静态文件 / 当前生效配置 / 运行时注册 / 诊断输出”六层含义，不要把任一层混同为全部真相。
+- 官方文档与本地 schema 冲突时，优先确认当前安装版本与运行时实际行为；新版本文档只能作为候选依据，不能覆盖本机诊断事实。
+
+### 配置、扩展与密钥归属
+
+- `opencode.json[c]` 承载 OpenCode 运行时配置；TUI 专属外观与按键优先放入 `tui.json[c]`；agents、commands、plugins、skills、tools、themes 等目录以官方当前发现规则为准，复数目录是主路径，单数目录仅按兼容行为看待。
+- `.opencode/`、`~/.config/opencode/`、`.agents/`、`.claude/` 等兼容发现路径可能并存；判断某个 skill、command 或 agent 是否可用时，以当前工具描述、权限配置和诊断输出为准，而不是只看文件是否存在。
+- OpenCode 支持通过环境变量与文件引用拼装配置；涉及密钥、组织策略、provider 凭据或 OAuth 状态时，只记录引用方式和验证方法，不记录真实值。
+- MCP、plugin、hook、custom tool、formatter、LSP、browser automation、tmux、notification、runtime fallback、task system 等属于可选运行时能力；是否启用、如何降级和是否可调用，都必须回到当前配置与实际工具表确认。
 
 ### 技能、命令与可选能力
 
-- 区分 `skill` 与 slash command：skill 是按需加载的知识/工作流单元，command 是可模板化复用的触发入口；两者在兼容层中可能共享部分调用路径，但语义上不要混写成同一种东西。
-- 当任务明显匹配某个 skill、slash command、模板、插件或子代理时，先确认其在当前运行时已被发现且可用，再按需复用；“本地存在对应文件”不等于“当前 agent 一定可见或一定可调用”。
-- skill 的可见性还会受发现路径、命名规则、权限配置与运行时隐藏策略影响；命令也可能被同名自定义项覆盖。因此遇到“为什么没出现 / 为什么没生效”时，应先查官方发现规则、权限配置与 `doctor` / 实际工具描述，而不是直接猜测安装坏了。
-- 当 skill、命令、插件、模板、子代理或其他可选能力不存在、未启用、未安装、路径不明、权限隐藏或生效状态不明确时，不得继续按其已可用来描述或执行；应直接降级或回退到当前会话可用的本地工具、仓库内已有实现或通用流程继续推进任务，而不是把缺少能力本身写成必须人工介入的阻塞。
+- 区分 `skill` 与 slash command：skill 是按需加载的知识/工作流单元，可由 `skill` 工具暴露并受权限控制；command 是可模板化复用的触发入口。两者在兼容层中可能共享部分路径或触发方式，但语义上不要混写成同一种东西。
+- 新版 OpenCode skill 以 `skills/<name>/SKILL.md` 发现，要求名称、目录与 frontmatter 符合当前规则；还可能受全局/项目路径、向上遍历、兼容路径、重复名称与 permission 策略影响。因此“文件存在”不等于“当前 agent 可见”。
+- 当任务明显匹配某个 skill、slash command、模板、插件或子代理时，先确认其在当前运行时已被发现且可用，再按需复用；若工具描述没有暴露，必须降级到当前可用工具，而不是假定安装坏了或等待人工处理。
+- skill 的可见性还会受发现路径、命名规则、权限配置、agent 工具开关与运行时隐藏策略影响；命令也可能被同名自定义项覆盖。因此遇到“为什么没出现 / 为什么没生效”时，应先查官方发现规则、权限配置、当前工具描述与 `doctor` / 诊断输出，而不是直接猜测。
+- 当 skill、命令、插件、模板、子代理或其他可选能力不存在、未启用、未安装、路径不明、权限隐藏或生效状态不明确时，不得继续按其已可用来描述或执行；应直接降级或回退到当前会话可用的本地工具、仓库内已有实现或通用流程继续推进任务。
 - 涉及高审美前端生成时，`frontend-design` 与 `ui-ux-pro-max` 可作为本地已确认存在且当前可用时的可选示例；若两者都可用，可先参考前者确定视觉方向、记忆点与主要版式，再参考后者收口信息层级、交互、响应式与可访问性。相关完整调用模板应作为独立维护的参考材料，而不是执行前提或基础设施依赖。
 
 ### 委派、子代理与 category
 
 - 简单的多文件读取、精确搜索或局部替换，优先在当前会话完成，不要为了形式化而委派子代理。
-- 需要委派时，必须给出明确范围、目标和产出，避免“随便看看”“探索一下”这类无边界指令。
-- 区分 agent、subagent 与 category：category 是 `task()` 的任务预设与路由标签，不是可递归协作的 agent；display name 也不等于配置 key。需要继续统筹、分派或多轮协作时，优先使用当前实际可用的 agent / task 机制，而不是把 category 当作可无限扩展的代理链。
-- 子代理、category、后台任务并发与可用能力受当前 runtime 配置约束；不要在 `AGENTS.md` 中写死并发数字、模型分工或某个能力的启停状态。
+- 需要委派时，必须给出明确范围、目标、产出、禁止事项和验证方式，避免“随便看看”“探索一下”这类无边界指令。
+- 区分 agent、subagent、category、skill 和 display name：agent/subagent 是可运行的会话身份或工具入口，category 是 `task()` 的任务路由与配置标签，skill 是附加知识/工作流；display name 只用于展示，不等于配置 key 或可调用名称。
+- Oh-My-OpenAgent 的 category 用来把任务路由到适合的模型/提示/工具组合；不要在 `AGENTS.md` 写死 category 的模型映射、fallback 链或默认并发，也不要把 category 当作可递归协作的 agent。
+- 子代理、category、后台任务并发与可用能力受当前 runtime 配置、权限、provider 状态和 model capability normalization 约束；每次关键委派前都应以当前 `task()` 描述和诊断事实为准。
 - Oracle 仅应在当前可用且确有必要时，用于高成本且高价值的问题：架构权衡、两次以上失败后的调试、跨系统复杂问题；普通配置核对、常规代码阅读与轻量 review 不应默认升级到 Oracle。
+
+### 模型、fallback 与实验特性
+
+- 模型、provider、variant、reasoning effort、fallback、并发限制与 capability normalization 都属于运行时配置或插件实现细节；除非用户明确要求修改配置，不要主动改模型链、禁用特性或调整 provider 优先级。
+- 新版本能力如 runtime fallback、background task、task system、hashline edit、embedded MCP、session recovery、context compaction 等，只能写成“可按当前配置与诊断确认的能力类别”，不要写成当前必然启用或永久存在。
+- 对 `experimental`、兼容层、迁移字段与自动生成配置保持保守：修改前先确认 schema、文档和当前配置，修改后必须用低成本诊断或 diff review 验证没有覆盖用户手工配置。
 
 ### search-mode / analyze-mode
 
@@ -68,11 +86,12 @@
 ### 默认执行偏好
 
 - 轻量任务优先单会话、本地工具与可验证的串行执行；仅当任务明显扩展为多步骤、高不确定性或跨模块问题时，再升级流程。
-- 在运行 build / compile / test 等高成本验证前，先做低成本前置检查；若缺少依赖、命令、环境变量、权限或外部服务，应标记为环境阻塞并说明缺口。
+- 在运行 build / compile / test / doctor 等高成本验证前，先做低成本前置检查；若缺少依赖、命令、环境变量、权限或外部服务，应标记为环境阻塞并说明缺口。
 - 同一验证命令若因同类原因失败，在未改变代码、配置、依赖或环境前不得重复运行；若全量验证成本显著偏高，应先说明成本、目的与范围，并请示是否执行。
 - 项目上下文、现有代码、配置与已读文档足以支持下一步时，不要重复向用户确认。
 - 需要用户确认时，优先一次性给出 2 到 3 个可选方案、影响与推荐项，避免拆成过多轮确认。
-- 删除文件、大规模重构、修改 Git 历史、变更环境配置、调整 CI、数据库变更等高影响操作仍需先征得用户确认。
+- 删除文件、大规模重构、修改 Git 历史、变更环境配置、调整 CI、数据库变更、认证状态变更、全局 provider / model 变更等高影响操作仍需先征得用户确认。
+- 涉及上下文压缩、会话恢复、todo continuation 或后台任务时，应把关键结论压缩成可追溯摘要，避免依赖即将被裁剪的原始长输出。
 
 ### OpenSpec 工作流
 
@@ -88,3 +107,4 @@
 
 - 仅在本地长期工作方式变化，或官方行为变更已影响协作策略时更新本文件；判断是否需要更新时，以当前生效配置、官方文档、schema 与 `doctor` / 诊断结论为准。
 - 若只是运行时能力变化，优先修改配置、模板、skill 文档或插件文档，并按当前可用状态与诊断结果处理执行路径。
+- 更新 `AGENTS.md` 时优先做小范围、可解释、可回滚的文档改动；完成后检查 diff，确认没有写入模型清单、provider 清单、token、一次性诊断输出或其他短期状态。
