@@ -4,6 +4,7 @@ package-lock.json
 bun.lock
 .spec-workflow/
 .serena/
+.omo/
 _tmp/
 opencode.json.backup-*
 oh-my-openagent.json.backup-*
