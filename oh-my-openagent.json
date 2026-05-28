@@ -112,19 +112,5 @@
     "layout": "main-vertical",
     "main_pane_min_width": 120,
     "main_pane_size": 60
-  },
-  "lsp": {
-    "markdown-remark": {
-      "command": [
-        "npx",
-        "-y",
-        "remark-language-server",
-        "--stdio"
-      ],
-      "extensions": [
-        ".md",
-        ".xml"
-      ]
-    }
   }
 }
