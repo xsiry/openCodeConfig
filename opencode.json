@@ -16,6 +16,16 @@
         ".kt",
         ".kts"
       ]
+    },
+    "marksman": {
+      "command": [
+        "marksman",
+        "server"
+      ],
+      "extensions": [
+        ".md",
+        ".markdown"
+      ]
     }
   },
   "mcp": {
