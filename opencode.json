@@ -95,7 +95,7 @@
     "@morphllm/opencode-morph-plugin",
     "opencode-vibeguard",
     "@tarquinen/opencode-dcp@3.1.9",
-    "oh-my-openagent@latest"
+    "oh-my-openagent@5.1.1"
   ],
   "instructions": [
     "node_modules/@morphllm/opencode-morph-plugin/instructions/morph-tools.md"
